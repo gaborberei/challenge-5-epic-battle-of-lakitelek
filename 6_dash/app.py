@@ -20,8 +20,7 @@ col_names = ["hany_eves","hany_eves_2","MEGTETT","MEGTETT_2","KLÍMA","LÉGZSÁK
              "audi","mercedes-benz","bmw","infiniti","jaguar","land_rover","porsche",\
              "lexus","maserati","Hibrid","Elektromos","Dízel","Benzin"]
 
-marka_ido_df = pd.read_csv("../5_dash_prepare/data/marka_ido.csv")
-
+marka_ido_df = pd.read_csv(str(Path("../5_dash_prepare/data/marka_ido.csv")))
 
 app.layout = html.Div(children=[
 
