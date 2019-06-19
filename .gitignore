@@ -1,8 +1,5 @@
 #data file
 *.csv
 
-#data folders
-data/
-
 #.ipynb_checkpoints
 .ipynb_checkpoints/
