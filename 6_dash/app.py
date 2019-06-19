@@ -8,19 +8,19 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 import pickle
 import pandas as pd
+from pathlib import Path
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-loaded_model = pickle.load(open("../5_modelling/data/finalized_model.sav", 'rb'))
+loaded_model = pickle.load(open(str(Path("../5_modelling/data/finalized_model.sav")), 'rb'))
 col_names = ["hany_eves","hany_eves_2","MEGTETT","MEGTETT_2","KLÍMA","LÉGZSÁK",\
              "ALUFELNI","ASR","AUTOMATA","BI-XENON","BLUETOOTH","TELJESITMENY LOERO",\
              "audi","mercedes-benz","bmw","infiniti","jaguar","land_rover","porsche",\
              "lexus","maserati","Hibrid","Elektromos","Dízel","Benzin"]
 
-marka_ido_df = pd.read_csv("../5_dash_prepare/data/marka_ido.csv")
-
+marka_ido_df = pd.read_csv(str(Path("../5_dash_prepare/data/marka_ido.csv")))
 
 app.layout = html.Div(children=[
 

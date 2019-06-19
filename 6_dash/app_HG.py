@@ -9,14 +9,13 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import plotly.graph_objs as go
+from pathlib import Path
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
-marka_ido_df = pd.read_csv("marka_ido.csv")
-
-
+marka_ido_df = pd.read_csv(str(Path("marka_ido.csv"))
 
 app.layout = html.Div([
     dcc.Graph(
