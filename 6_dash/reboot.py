@@ -62,14 +62,39 @@ numbers_list = [numbers_func(i) for i in numbers]
 boolen_list = [boolen_func(i) for i in data_dict["boolen"]]
 dropdown_list = [ dropdown_func(key) for key in data_dict["Dropdown"].keys()]
 
-app.layout = html.Div([html.Div(id='titkos')] + numbers_list + boolen_list + dropdown_list)
+app.layout = html.Div([html.Div(id='titkos')] + numbers_list + boolen_list + dropdown_list +     [dcc.Graph(
+        
+        id='life-exp-vs-gdp',
+        figure={
+            'data': [
+                go.Scatter(
+                    x=marka_ido_df[marka_ido_df['MARKA'] == m]['eladasig_nap'],
+                    y=marka_ido_df[marka_ido_df['MARKA'] == m]['piacon_nap'],
+                    text= m,
+                    mode='markers',
+                    opacity=0.7,
+                    marker={
+                        'size': 10,
+                        'line': {'width': 0.5, 'color': 'white'}
+                    },
+                    name=m
+                ) for m in marka_ido_df.MARKA
+            ],
+            'layout': go.Layout(
+                xaxis={'title': 'Az eladásig eltelt átlagos idő (nap)'},
+                yaxis={'title': 'A jelenleg elérhető autók átlagos piacon töltött ideje'},
+                #margin={'l': 40, 'b': 40, 't': 10, 'r': 10},
+                legend={'x': 0, 'y': 1},
+                hovermode='closest'
+            )
+        },
+        style = {'height': 800}
+    )])
 
 @app.callback(Output('titkos', 'children'),
 [Input(x, 'value') for x in col_names])
-
-#[Input(x, 'value') for x in col_names]
 def titok(*arglist):
-    d = {col_names[idx]:arglist[idx] for idx in range(12)}
+    d = {col_names[idx]:arglist[idx] for idx in range(len(col_names))}
 
     df = pd.DataFrame(data=d, index = [0])
 
