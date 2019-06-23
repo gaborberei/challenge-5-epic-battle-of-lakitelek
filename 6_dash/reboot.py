@@ -65,22 +65,17 @@ dropdown_list = [ dropdown_func(key) for key in data_dict["Dropdown"].keys()]
 app.layout = html.Div([html.Div(id='titkos')] + numbers_list + boolen_list + dropdown_list)
 
 @app.callback(Output('titkos', 'children'),
-[Input('hany_eves', 'value'), Input('MEGTETT_KM', 'value'),Input('LOERO', 'value'), Input('KLÍMA', 'value'), Input('LÉGZSÁK', 'value'),
-Input('ALUFELNI', 'value'), Input('ASR', 'value'), Input('AUTOMATA', 'value'), Input('BI-XENON', 'value'), Input('BLUETOOTH', 'value'), 
-Input('auto_marka', 'value'), Input('hajtaslanc', 'value')])
-def titok(hany_eves,MEGTETT_KM,LOERO,KLÍMA,LÉGZSÁK,ALUFELNI,ASR,AUTOMATA,BI_XENON,BLUETOOTH,auto_marka,hajtaslanc):
-    arglist = col_names
-    d={'hany_eves': [hany_eves], 'MEGTETT_KM': [MEGTETT_KM], 'LOERO': [LOERO],"KLÍMA":[KLÍMA], 'LÉGZSÁK': [LÉGZSÁK], 'ALUFELNI': [ALUFELNI], 'ASR': [ASR],
-    'AUTOMATA': [AUTOMATA], 'BI-XENON': [BI_XENON], 'BLUETOOTH': [BLUETOOTH], 'Márka': [auto_marka],
-    'hajtaslanc': [hajtaslanc]}
-    print('JAAAJ')
+[Input(x, 'value') for x in col_names])
+
+#[Input(x, 'value') for x in col_names]
+def titok(*arglist):
+    d = {col_names[idx]:arglist[idx] for idx in range(12)}
+
+    df = pd.DataFrame(data=d, index = [0])
 
 
-    df = pd.DataFrame(data=d)
-
-
-    df = df.join(pd.get_dummies(df["Márka"]))
-    df = df.drop(["Márka"], axis = 1)
+    df = df.join(pd.get_dummies(df["auto_marka"]))
+    df = df.drop(["auto_marka"], axis = 1)
 
     df = df.join(pd.get_dummies(df["hajtaslanc"]))
     df = df.drop(["hajtaslanc"], axis = 1)
@@ -89,10 +84,6 @@ def titok(hany_eves,MEGTETT_KM,LOERO,KLÍMA,LÉGZSÁK,ALUFELNI,ASR,AUTOMATA,BI_X
 
     #df["hany_eves_2"] = df["hany_eves"] ** 2
     #df["MEGTETT_KM_2"] = df["MEGTETT_KM"] ** 2
-
-    #df.to_csv("proba_2.csv")
-
-    print(df)
 
     df_final = pd.merge(pd.DataFrame(0,index=range(1),columns=data_dict["all"]), df, how = "right",on = list(df.columns)).fillna(0)
 
